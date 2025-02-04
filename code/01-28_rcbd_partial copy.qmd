@@ -29,7 +29,7 @@ You should NOT analyze a given designed study with a different design than what 
 This is not an option!  
 
 ```{r data import}
-rcbd_df 
+rcbd_df <- read_csv("../data/wheat_nk_balkh.csv")
 
 rcbd_df
 ```
