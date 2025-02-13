@@ -12,19 +12,24 @@ The goals of this exercise are to:
 Here is where we load the packages we will use.  
 ```{r setup}
 # Loading packages
-#library(tidyverse) # for data wrangling and plotting
-#library(car) # for Anova function
-#library(lme4)
+library(tidyverse) # for data wrangling and plotting
+library(car) # for Anova function
+#install.packages("lme4")
+install.packages("Matrix")
+
+library(Matrix)
+library(lme4)
 #install.packages("broom");
-#library(broom) # for model residuals extraction
-#library(emmeans) # for model mean extraction
+library(broom) # for model residuals extraction
+library(emmeans) # for model mean extraction
 #library(multcomp) # for pairwise comparison letter display
-install.packages("dplyr")
-library("dplyr")
-install.packages("ggplot2")  # Install ggplot2 if not already installed
+#install.packages("dplyr")
+library(dplyr)
+#install.packages("ggplot2")  # Install ggplot2 if not already installed
 library(ggplot2)  # Load ggplot2 package
 
 ```
+
 
 **IMPORTANT NOTE**:  
 We are using in this exercise the same data set as the one used for the CRD exercise. This is only for **teaching purposes!!**  
@@ -114,12 +119,13 @@ options(contrasts = c("contr.sum", "contr.poly"))
 
 # Model fitting
 rcbd_mix_mod <- lmer(yield_kgha ~ nrate_kgha*krate_kgha +
-                       (1|rep)
-                       
+                       (1|rep),
+                     data = rcbd_dfw
                        )
 
 # Summary
 summary(rcbd_mix_mod)
+
 ```
 
 Notice now how the `summary()` above has a new section for **random effects**.  
@@ -130,7 +136,7 @@ Therefore, blocks are responsible for 59932 / (59932 + 376416) = **14% of the to
 
 # f) ANOVA table  
 ```{r ANOVA}
-Anova(rcbd_mod_mix, type=3)
+Anova(rcbd_mix_mod, type=3)
 ```
 Notice how this table is now titled "Analysis of Deviance Table". That's because we are using REML instead of mean squares.  
 
@@ -163,7 +169,7 @@ One difference in mixed models is that the 3 first assumptions are also applied 
 
 ### Random effects are iid ~ N(0,var_a)  
 ```{r randeff_rep}
-randeff_rep
+randeff_rep <- ranef(rcbd_mix_mod[[1]]
 
 randeff_rep
 ```
